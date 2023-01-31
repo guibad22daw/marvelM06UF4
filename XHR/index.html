@@ -47,13 +47,17 @@
 			}
 
 			function ajaxFunction(cadena) {
-                console.log(cadena);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 3) {
-						document.getElementById("cadenaInvertida").innerHTML = "Carregant...";
+						document.getElementById("resultats").innerHTML = "Carregant...";
 					}
 					else if (xhr.readyState == 4) {
-						document.getElementById("cadenaInvertida").innerHTML = xhr.responseText;
+                        data = JSON.parse(xhr.responseText);
+                        resultats = data.data.results;
+                        console.table(resultats);
+						document.getElementById("resultats").innerHTML = JSON.stringify(resultats[0]); // resultat[0].comics mostraria els comics en els que apareix aquell personatge
+						
+                       
 					}
 				};
 
@@ -67,6 +71,6 @@
 	<body onload="inici()">
 		<input type="text" name="cadena" id="cadena" value="" />
 		<br />
-		<label id="cadenaInvertida"></label>
+		<label id="resultats"></label>
 	</body>
 </html>
