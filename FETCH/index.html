@@ -1,0 +1,69 @@
+<button id="boto">Cerca</button>
+<input id="cadena" type="text">
+<div id="resultats" style="display: flex; flex-wrap: wrap;"></div>
+
+<script>
+const opciones = ['3-D Man', 'A-Bomb (HAS)', 'A.I.M.', 'Aaron Stack', 'Abomination (Emil Blonsky)', 'Abomination (Ultimate)', 'Absorbing Man', 'Abyss', 'Abyss (Age of Apocalypse)', 'Adam Destine',
+'Adam Warlock', 'Aegis (Trey Rollins)', 'Aero (Aero)', 'Agatha Harkness', 'Agent Brand', 'Agent X (Nijo)', 'Agent Zero', 'Agents of Atlas', 'Aginar, Air-Walker (Gabriel Lan)','Balder','Banshee','Banshee (Theresa Rourke)','Baron Mordo (Karl Mordo)','Baron Strucker','Baron Zemo (Heinrich Zemo)','Baron Zemo (Helmut Zemo)','Bart Rozum','Bastion','Batroc the Leaper','Battering Ram','Battlestar','Beak','Beast','Beast (Earth-311)','Beast (Ultimate)','Becatron','Bedlam','Hulk', 'Spider-man', ];
+
+async function inici() {
+  const input = document.getElementById("cadena");
+
+  // Añade las opciones de autocompletar al input
+  input.setAttribute("autocomplete", "off");
+  input.setAttribute("list", "opciones");
+  const datalist = document.createElement("datalist");
+  datalist.setAttribute("id", "opciones");
+  opciones.forEach(opcion => {
+    const option = document.createElement("option");
+    option.setAttribute("value", opcion);
+    datalist.appendChild(option);
+  });
+  input.after(datalist);
+
+  // Agrega el evento de click al botón
+  document.getElementById("boto").onclick = function() {
+    ajaxFunction(input.value);
+  };
+}
+
+async function ajaxFunction(cadena) {
+  const response = await fetch(
+    `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${cadena}&ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`
+  );
+
+  if (response.ok) {
+    const data = await response.json();
+    const resultats = data.data.results;
+
+    const response2 = await fetch(
+      `http://gateway.marvel.com/v1/public/characters/${resultats[0].id}/comics?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5&limit=100`
+    );
+
+    if (response2.ok) {
+      const data2 = await response2.json();
+      const resultats2 = data2.data.results;
+
+      document.getElementById("resultats").innerHTML = "";
+
+      resultats2.forEach((comic, index) => {
+        console.log(comic.title);
+        let linkPortada = comic.thumbnail.path + "." + comic.thumbnail.extension;
+        let portada = document.createElement("div");
+        portada.style.display = "inline-block";
+        portada.style.margin = "10px";
+        var imatgePortada = document.createElement("img");
+        if (!linkPortada.includes("image_not_available")) {
+          imatgePortada.src = linkPortada;
+          imatgePortada.width = 150;
+          imatgePortada.height = 230;
+          portada.appendChild(imatgePortada);
+          document.getElementById("resultats").appendChild(portada);
+        }
+      });
+    }
+  }
+}
+
+inici();
+</script>
