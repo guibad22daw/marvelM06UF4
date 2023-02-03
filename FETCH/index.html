@@ -11,7 +11,9 @@
 
 <body onload="inici()">
   <button id="boto">Cerca</button>
-  <input id="cadena" type="text">
+  <input id="cadena" type="text" list="datalist" autocomplete="off">
+  <datalist id="datalist">
+  </datalist>
   <div id="resultats" style="display: flex; flex-wrap: wrap; text-align: center;"></div>
 </body>
 
