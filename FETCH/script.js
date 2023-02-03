@@ -26,11 +26,11 @@ async function inici() {
       const resultats3 = data3.data.results;
       console.log(resultats3);
       const newSuggestions = resultats3;
-  
+
       while (suggestions.firstChild) {
         suggestions.removeChild(suggestions.firstChild);
       }
-  
+
       newSuggestions.forEach(suggestion => {
         const option = document.createElement("option");
         option.value = suggestion.name;
@@ -46,7 +46,7 @@ async function ajaxFunction(cadena) {
   const response = await fetch(
     `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${cadena}&ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`
   );
-
+  document.getElementById("resultats").innerHTML = "<h2>Carregant...</h2>";
   if (response.ok) {
     const data = await response.json();
     const resultats = data.data.results;
@@ -86,7 +86,5 @@ async function ajaxFunction(cadena) {
         }
       });
     }
-  } else {
-    document.getElementById("resultats").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>"; // per què no funciona?
   }
 }
