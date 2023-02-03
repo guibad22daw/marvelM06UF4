@@ -86,5 +86,7 @@ async function ajaxFunction(cadena) {
         }
       });
     }
+  } else {
+    document.getElementById("resultats").innerHTML = "<h2>Error cercant informació.</h2>";
   }
 }
