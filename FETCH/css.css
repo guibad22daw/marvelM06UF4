@@ -44,3 +44,20 @@ body {
     color: white;
     padding-left: 20px;
 }
+
+/*navvar*/
+nav {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    background-color: red;
+  }
+  
+  nav div {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-family: 'Anton';
+    color: white;
+    font-size: 70px;
+  }
