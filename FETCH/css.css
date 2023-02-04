@@ -5,3 +5,42 @@ body {
 #boto {
     margin-left: 15px;
 }
+
+/* The sidepanel menu */
+.sidepanel {
+    height: 100%;
+    /* Specify a height */
+    width: 0;
+    /* 0 width - change this with JavaScript */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: #cd0000;
+    /* Black*/
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 60px;
+    /* Place content 60px from the top */
+    transition: 0.5s;
+    /* 0.5 second transition effect to slide in the sidepanel */
+    float: right;
+}
+
+.imatgePanel {
+    width: 300px;
+    height: 460px;
+    margin-left: 60px;
+}
+
+.divPanel {
+    display: flex;
+}
+
+.divPanel h4 {
+    font-size: 40px;
+    color: white;
+    padding-left: 20px;
+}
