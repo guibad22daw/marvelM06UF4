@@ -95,7 +95,9 @@ async function ajaxFunction(cadena) {
           imatgePanel.setAttribute("class","imatgePanel");
           let titol = document.createElement("h4");
           titol.innerText = comic.title;
-          divPanel.append(imatgePanel,titol);
+          let description = document.createElement("p");
+          description.innerText = comic.description; // Afegim la descripcio del comic
+          divPanel.append(imatgePanel,titol, description);
           document.getElementById("mySidepanel").appendChild(divPanel);
           document.getElementById("mySidepanel").style.width = "43%";
           document.getElementById("resultats").style.marginRight = "43%";

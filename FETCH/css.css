@@ -1,5 +1,6 @@
 body {
     margin: 10px;
+    background-color: #efebea;
 }
 
 #boto {
@@ -75,8 +76,7 @@ nav {
     height: 80px;
     display: flex;
     align-items: center;
-    background-color: red;
-    margin-left: 17.2px;
+    background-color: #cd0000;
     border-radius: 5px;
 }
 
