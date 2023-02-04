@@ -112,12 +112,3 @@ async function ajaxFunction(cadena) {
 function closeNav() {
 
 }
-
-/*
-HASH
-a8f69640120357153f5fbf798e4df9b2
-PUBLIC KEY
-71411e1ad6f56437d46738e6e1f77f11
-PRIVATE KEY
-98ce534fa067f39be4a5fe32a758eb38e4b450ba
-*/
