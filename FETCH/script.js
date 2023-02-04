@@ -99,6 +99,7 @@ async function ajaxFunction(cadena) {
           document.getElementById("mySidepanel").appendChild(divPanel);
           document.getElementById("mySidepanel").style.width = "43%";
           document.getElementById("resultats").style.marginRight = "43%";
+          document.getElementById("resultats").style.transition = "all 0.5s ease 0s";
         };
       });
     }

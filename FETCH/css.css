@@ -6,6 +6,11 @@ body {
     margin-left: 15px;
 }
 
+.resultats h4 {
+    padding-top: 5px;
+    font-size: 19px;
+}
+
 /* The sidepanel menu */
 .sidepanel {
     height: 100%;
@@ -27,6 +32,7 @@ body {
     transition: 0.5s;
     /* 0.5 second transition effect to slide in the sidepanel */
     float: right;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .imatgePanel {
