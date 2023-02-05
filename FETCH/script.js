@@ -76,7 +76,6 @@ async function ajaxFunction(cadena) {
         //a.href = linkComic;
         let h4 = document.createElement("h4");
         h4.innerText = comic.title;
-        h4.style.width = "160px";
         let imatgePortada = document.createElement("img");
         a.append(imatgePortada,h4);
         if (!linkPortada.includes("image_not_available")) {
@@ -96,6 +95,7 @@ async function ajaxFunction(cadena) {
           let titol = document.createElement("h4");
           titol.innerText = comic.title;
           let description = document.createElement("p");
+          description.setAttribute("class","descripcio");
           description.innerText = comic.description; // Afegim la descripcio del comic
           divPanel.append(imatgePanel,titol, description);
           document.getElementById("mySidepanel").appendChild(divPanel);
