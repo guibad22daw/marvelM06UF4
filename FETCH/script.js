@@ -88,7 +88,9 @@ async function ajaxFunction(cadena) {
         a.onclick = function openNav() {  // Panel lateral on es mostra la informació del comic seleccionat.
           document.getElementById("mySidepanel").innerHTML = '';
           let divPanel = document.createElement("div");
+          let detalls = document.createElement("div");
           divPanel.setAttribute("class","divPanel");
+          detalls.setAttribute("class","detalls");
           let imatgePanel = document.createElement("img");
           imatgePanel.src = linkPortada;
           imatgePanel.setAttribute("class","imatgePanel");
@@ -97,7 +99,8 @@ async function ajaxFunction(cadena) {
           let description = document.createElement("p");
           description.setAttribute("class","descripcio");
           description.innerText = comic.description; // Afegim la descripcio del comic
-          divPanel.append(imatgePanel,titol, description);
+          detalls.append(titol, description)
+          divPanel.append(imatgePanel, detalls);
           document.getElementById("mySidepanel").appendChild(divPanel);
           document.getElementById("mySidepanel").style.width = "43%";
           document.getElementById("resultats").style.marginRight = "43%";

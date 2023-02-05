@@ -62,13 +62,12 @@ body {
     transition: 0.5s;
     float: right;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    margin-top: 10px;
 }
 
 .imatgePanel {
     width: 300px;
     height: 460px;
-    margin-left: 60px;
+    margin-left: 40px;
 }
 
 .divPanel {
@@ -77,6 +76,17 @@ body {
 
 .divPanel h4 {
     font-size: 40px;
+    color: white;
+    padding-left: 20px;
+}
+
+.detalls {
+    padding-right: 50px;
+    text-align: justify;
+}
+
+.descripcio {
+    font-size: 18px;
     color: white;
     padding-left: 20px;
 }
