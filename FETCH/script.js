@@ -7,12 +7,12 @@ async function inici() {
     ajaxFunction(document.getElementById("cadena").value);
   };
 
-  document.onmousedown = function() {
+  document.onmousedown = function () {
     document.getElementById("mySidepanel").style.width = "0";
     document.getElementById("resultats").style.marginRight = "0";
   }
 
-  window.onscroll = function() {
+  window.onscroll = function () {
     if (document.body.scrollTop > 350 || document.documentElement.scrollTop > 350) {
       document.getElementById("mySidepanel").style.marginTop = "0px";
     } else {
@@ -78,71 +78,61 @@ async function ajaxFunction(cadena) {
         let linkPortada = comic.thumbnail.path + "." + comic.thumbnail.extension;
         let linkComic = comic.urls[0].url;
         let portada = document.createElement("div");
-        portada.setAttribute("class","portada");
-        portada.style.display = "inline-block";
-        portada.style.margin = "10px";
+        portada.setAttribute("class", "portada");
+        portada.style.cssText = "display: inline-block; margin: 10px";
         let a = document.createElement("a");
         //a.href = linkComic;
         let h4 = document.createElement("h4");
         h4.innerText = comic.title;
         let imatgePortada = document.createElement("img");
-        a.append(imatgePortada,h4);
+        a.append(imatgePortada, h4);
         if (!linkPortada.includes("image_not_available")) {
           imatgePortada.src = linkPortada;
-          imatgePortada.width = 150;
-          imatgePortada.height = 230;
-          portada.append(a,h4);
+          imatgePortada.style.cssText = "width:150px; height: 230px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);"
+          portada.append(a, h4);
           document.getElementById("resultats").appendChild(portada);
         }
         a.onclick = function openNav() {  // Panel lateral on es mostra la informació del comic seleccionat.
           document.getElementById("mySidepanel").innerHTML = '';
           let divPanel = document.createElement("div");
           let detalls = document.createElement("div");
-          divPanel.setAttribute("class","divPanel");
-          detalls.setAttribute("class","detalls");
-          
+          divPanel.setAttribute("class", "divPanel");
+          detalls.setAttribute("class", "detalls");
+
           let imatgePanel = document.createElement("img");
           imatgePanel.src = linkPortada;
-          imatgePanel.setAttribute("class","imatgePanel");
-          
+          imatgePanel.setAttribute("class", "imatgePanel");
+
           let titol = document.createElement("h2");
           titol.innerText = comic.title;
 
           let textPub = document.createElement("p");
           let dataPub = comic.dates[0].date.split("T")[0];
-          textPub.innerHTML=`<b>Publicació:</b> <br> ${dataPub}`;
-          
+          textPub.innerHTML = `<b>Publicació:</b> <br> ${dataPub}`;
+
           let textAutor = document.createElement("p");
           let textIlustrador = document.createElement("p");
           comic.creators.items.forEach(async function (autor, index) {
-            console.log(autor.name);
-            console.log(autor.role);
             if (autor.role == "writer") {
               textAutor.innerHTML = `<b>Autor:</b> <br> ${autor.name}`;
             } else if (autor.role == "penciller" || autor.role == "penciler" || autor.role == "penciler (cover)" || autor.role == "penciller (cover)" || autor.role == "inker") {
               textIlustrador.innerHTML = `<b>Ilustrador:</b> <br> ${autor.name}`;
-            } 
+            }
           })
 
           let description = document.createElement("p");
-          description.setAttribute("class","descripcio");
+          description.setAttribute("class", "descripcio");
           description.innerHTML = comic.description; // Afegim la descripcio del comic
 
           detalls.append(titol, textPub, textAutor, textIlustrador, description)
           divPanel.append(imatgePanel, detalls);
           document.getElementById("mySidepanel").appendChild(divPanel);
           document.getElementById("mySidepanel").style.width = "43%";
-          document.getElementById("resultats").style.marginRight = "43%";
-          document.getElementById("resultats").style.transition = "all 0.5s ease 0s";
+          document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
         };
       });
     }
   } else {
     document.getElementById("resultats").innerHTML = "<h2>Error cercant informació.</h2>";
   }
-}
-
-/* Set the width of the sidebar to 0 (hide it) */
-function closeNav() {
-
 }

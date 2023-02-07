@@ -89,7 +89,7 @@ body {
     color: white;
     padding-left: 20px;
     text-align: left;
-    text-shadow: 0 1px 10px #000000;
+    text-shadow: 0 1px 6px #000000;
 }
 
 .detalls p:nth-child(-n+4) {
@@ -101,14 +101,14 @@ body {
 .detalls {
     padding-right: 50px;
     text-align: justify;
-    text-shadow: 0 1px 8px #000000;
+    text-shadow: 0 1px 6px #000000;
 }
 
 .descripcio {
     font-size: 18px;
     color: white;
     padding-left: 20px;
-    text-shadow: 0 0 10px #000000;
+    text-shadow: 0 0 6px #000000;
 }
 
 nav {
