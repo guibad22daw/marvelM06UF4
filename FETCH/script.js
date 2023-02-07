@@ -12,6 +12,14 @@ async function inici() {
     document.getElementById("resultats").style.marginRight = "0";
   }
 
+  window.onscroll = function() {
+    if (document.body.scrollTop > 350 || document.documentElement.scrollTop > 350) {
+      document.getElementById("mySidepanel").style.marginTop = "0px";
+    } else {
+      document.getElementById("mySidepanel").style.marginTop = "10px";
+    }
+  }
+
   document.getElementById("cadena").onkeyup = async function () {
     const value = this.value;
 
@@ -66,10 +74,11 @@ async function ajaxFunction(cadena) {
       if (data2.data.count == 0) document.getElementById("resultats").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
 
       resultats2.forEach((comic, index) => {
-        console.log(comic.title);
+        // console.log(comic.title);
         let linkPortada = comic.thumbnail.path + "." + comic.thumbnail.extension;
         let linkComic = comic.urls[0].url;
         let portada = document.createElement("div");
+        portada.setAttribute("class","portada");
         portada.style.display = "inline-block";
         portada.style.margin = "10px";
         let a = document.createElement("a");
@@ -91,15 +100,35 @@ async function ajaxFunction(cadena) {
           let detalls = document.createElement("div");
           divPanel.setAttribute("class","divPanel");
           detalls.setAttribute("class","detalls");
+          
           let imatgePanel = document.createElement("img");
           imatgePanel.src = linkPortada;
           imatgePanel.setAttribute("class","imatgePanel");
-          let titol = document.createElement("h4");
+          
+          let titol = document.createElement("h2");
           titol.innerText = comic.title;
+
+          let textPub = document.createElement("p");
+          let dataPub = comic.dates[0].date.split("T")[0];
+          textPub.innerHTML=`<b>Publicació:</b> <br> ${dataPub}`;
+          
+          let textAutor = document.createElement("p");
+          let textIlustrador = document.createElement("p");
+          comic.creators.items.forEach(async function (autor, index) {
+            console.log(autor.name);
+            console.log(autor.role);
+            if (autor.role == "writer") {
+              textAutor.innerHTML = `<b>Autor:</b> <br> ${autor.name}`;
+            } else if (autor.role == "penciller" || autor.role == "penciler" || autor.role == "penciler (cover)" || autor.role == "penciller (cover)" || autor.role == "inker") {
+              textIlustrador.innerHTML = `<b>Ilustrador:</b> <br> ${autor.name}`;
+            } 
+          })
+
           let description = document.createElement("p");
           description.setAttribute("class","descripcio");
-          description.innerText = comic.description; // Afegim la descripcio del comic
-          detalls.append(titol, description)
+          description.innerHTML = comic.description; // Afegim la descripcio del comic
+
+          detalls.append(titol, textPub, textAutor, textIlustrador, description)
           divPanel.append(imatgePanel, detalls);
           document.getElementById("mySidepanel").appendChild(divPanel);
           document.getElementById("mySidepanel").style.width = "43%";
