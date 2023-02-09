@@ -111,6 +111,24 @@ body {
     text-shadow: 0 0 6px #000000;
 }
 
+#carregant {
+    width: 100%;
+}
+
+#carregant h2 {
+    color: white;
+    text-align: center;
+    margin-top: 10%;
+}
+
+#carregant img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+    margin-top: 10%;
+}
+
 nav {
     height: 80px;
     display: flex;
