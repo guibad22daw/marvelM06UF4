@@ -12,14 +12,6 @@ async function inici() {
     document.getElementById("resultats").style.marginRight = "0";
   }
 
-  window.onscroll = function () {
-    if (document.body.scrollTop > 350 || document.documentElement.scrollTop > 350) {
-      document.getElementById("mySidepanel").style.marginTop = "0px";
-    } else {
-      document.getElementById("mySidepanel").style.marginTop = "10px";
-    }
-  }
-
   document.getElementById("cadena").onkeyup = async function () {
     const value = this.value;
 
@@ -106,8 +98,11 @@ async function ajaxFunction(cadena) {
           detalls.setAttribute("class", "detalls");
 
           let imatgePanel = document.createElement("img");
-          imatgePanel.src = linkPortada;
+          let imatgefonsPanel = document.createElement("div");
           imatgePanel.setAttribute("class", "imatgePanel");
+          imatgefonsPanel.setAttribute("class", "imatgeFonsPanel");
+          imatgePanel.src = linkPortada;
+          imatgefonsPanel.style.cssText = `background-image: url(${linkPortada});`;
 
           let titol = document.createElement("h2");
           titol.innerText = comic.title;
@@ -122,17 +117,17 @@ async function ajaxFunction(cadena) {
             if (autor.role == "writer") {
               textAutor.innerHTML = `<b>Autor:</b> <br> ${autor.name}`;
             } else if (autor.role == "penciller" || autor.role == "penciler" || autor.role == "penciler (cover)" || autor.role == "penciller (cover)" || autor.role == "inker") {
-              textIlustrador.innerHTML = `<b>Ilustrador:</b> <br> ${autor.name}`;
+              textIlustrador.innerHTML = `<b>Il·lustrador:</b> <br> ${autor.name}`;
             }
           })
 
           let description = document.createElement("p");
           description.setAttribute("class", "descripcio");
-          description.innerHTML = comic.description; // Afegim la descripcio del comic
+          if(comic.description != null) description.innerHTML = `<b>Descripció:</b> <br> ${comic.description}`; // Afegim la descripcio del comic
 
           detalls.append(titol, textPub, textAutor, textIlustrador, description)
           divPanel.append(imatgePanel, detalls);
-          document.getElementById("mySidepanel").appendChild(divPanel);
+          document.getElementById("mySidepanel").append(imatgefonsPanel, divPanel);
           document.getElementById("mySidepanel").style.width = "43%";
           document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
         };
