@@ -96,7 +96,7 @@ socket.onmessage = async function (event) {
         }
         
         resultats2.forEach((comic, index) => {
-          // console.log(comic.title);
+        // console.log(comic.title);
         let linkPortada = comic.thumbnail.path + "." + comic.thumbnail.extension;
         let linkComic = comic.urls[0].url;
         let portada = document.createElement("div");
