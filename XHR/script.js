@@ -1,11 +1,29 @@
 var xhr, data, resultats;
 
 async function inici() {
-  const suggestions = document.querySelector("datalist");
-
   xhr = new XMLHttpRequest();
   xhr2 = new XMLHttpRequest();
   xhr3 = new XMLHttpRequest();
+  xhr4 = new XMLHttpRequest();
+
+  xhr4.open('GET', 'imatge', true);
+  xhr4.responseType = 'arraybuffer';
+
+  xhr4.onload = function(e) {
+    if (this.status == 200) {
+      var uInt8Array = new Uint8Array(this.response);
+      var i = uInt8Array.length;
+      var binaryString = new Array(i);
+      while (i--) {
+        binaryString[i] = String.fromCharCode(uInt8Array[i]);
+      }
+      var data = binaryString.join('');
+      var base64 = window.btoa(data);
+      document.getElementById("imatge").src = "data:image/png;base64," + base64;
+    }
+  };
+
+  const suggestions = document.querySelector("datalist");
 
   document.getElementById("boto").onclick = function () {
     ajaxFunction(document.getElementById("cadena").value);
