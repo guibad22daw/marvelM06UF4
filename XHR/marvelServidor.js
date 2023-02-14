@@ -8,25 +8,25 @@ app.get('/', (req, res) => {
 });
 
 app.get('/script.js', (req, res) => {
-    res.sendFile(ruta +'XHR/script.js');
+    res.sendFile(ruta + 'XHR/script.js');
 });
 
 app.get('/css.css', (req, res) => {
-    res.sendFile(ruta +'XHR/css.css');
+    res.sendFile(ruta + 'XHR/css.css');
 });
 
-app.get('/assets/Marvel_Logo.svg.png', (req, res) => {
+app.get('/logoMarvel', (req, res) => {
     res.sendFile(ruta + 'assets/Marvel_Logo.svg.png');
 });
 
 app.get('/assets/183984.jpg', (req, res) => {
-    res.sendFile(ruta +'assets/183984.jpg');
+    res.sendFile(ruta + 'assets/183984.jpg');
 });
 
 app.get('/assets/ironman.gif', (req, res) => {
-    res.sendFile(ruta +'assets/ironman.gif');
+    res.sendFile(ruta + 'assets/ironman.gif');
 });
 
 http.listen(8888, () => {
-    console.log('escoltant en *:8888');
+    console.log('Escoltant en http://localhost:8888');
 });

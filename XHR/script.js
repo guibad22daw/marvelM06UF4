@@ -6,10 +6,10 @@ async function inici() {
   xhr3 = new XMLHttpRequest();
   xhr4 = new XMLHttpRequest();
 
-  xhr4.open('GET', 'imatge', true);
+  xhr4.open('GET', '/logoMarvel', true);
   xhr4.responseType = 'arraybuffer';
 
-  xhr4.onload = function(e) {
+  xhr4.onload = function (e) {
     if (this.status == 200) {
       var uInt8Array = new Uint8Array(this.response);
       var i = uInt8Array.length;
@@ -19,9 +19,10 @@ async function inici() {
       }
       var data = binaryString.join('');
       var base64 = window.btoa(data);
-      document.getElementById("imatge").src = "data:image/png;base64," + base64;
+      document.getElementById("logoMarvel").src = "data:image/png;base64," + base64;
     }
   };
+  xhr4.send(null);
 
   const suggestions = document.querySelector("datalist");
 
