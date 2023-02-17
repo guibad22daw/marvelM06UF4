@@ -1,4 +1,9 @@
 //const socket = new WebSocket("ws://localhost:8080");
+const WebSocket = require("ws");
+// const socket = new WebSocket("ws://localhost:5500/MARVELM06UF4/WEBSOCKETS");
+//const server = new WebSocket.Server({ port: 8080 });
+
+const socket = new WebSocket("ws://localhost:5500");
 
 let opciones = [];
 
@@ -39,11 +44,10 @@ async function inici() {
   };
 
   socket.onclose = function () {
-    console.log("Conexión WebSockets tancada");
+    console.log("Conexió WebSockets tancada");
   };
 }
 
-const socket = new WebSocket("ws://gateway.marvel.com/v1/public");
 
 async function sendMessage(cadena) {
   document.getElementById("resultats").innerHTML = "<h2>Carregant...</h2>";
