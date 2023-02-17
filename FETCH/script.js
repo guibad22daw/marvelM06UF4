@@ -56,12 +56,11 @@ async function fetchFunction(cadena) {
   if (response.ok) {
     const data = await response.json();
     const resultats = data.data.results;
+    document.getElementById("carregant").innerHTML = `<img src="../assets/ironman.gif"/>`;
 
     if(resultats[0] == undefined) {
       document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
     }
-
-    document.getElementById("carregant").innerHTML = `<img src="../assets/ironman.gif"/>`;
     const response2 = await fetch(
       `http://gateway.marvel.com/v1/public/characters/${resultats[0].id}/comics?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5&limit=100`
     );
