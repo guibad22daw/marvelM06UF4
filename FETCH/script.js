@@ -4,7 +4,7 @@ async function inici() {
   const suggestions = document.querySelector("datalist");
 
   document.getElementById("boto").onclick = function () {
-    ajaxFunction(document.getElementById("cadena").value);
+    fetchFunction(document.getElementById("cadena").value);
   };
 
   document.onmousedown = function () {
@@ -46,7 +46,7 @@ async function inici() {
   }
 }
 
-async function ajaxFunction(cadena) {
+async function fetchFunction(cadena) {
   document.getElementById("resultats").innerHTML = "";
   document.getElementById("carregant").innerHTML = `<img src="../assets/ironman.gif"/>`;
   const response = await fetch(
@@ -61,6 +61,7 @@ async function ajaxFunction(cadena) {
       document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
     }
 
+    document.getElementById("carregant").innerHTML = `<img src="../assets/ironman.gif"/>`;
     const response2 = await fetch(
       `http://gateway.marvel.com/v1/public/characters/${resultats[0].id}/comics?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5&limit=100`
     );
@@ -70,6 +71,8 @@ async function ajaxFunction(cadena) {
       document.getElementById("resultats").innerHTML = "";
       const data2 = await response2.json();
       const resultats2 = data2.data.results;
+      
+      if (resultats2[0] == undefined) document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
 
       resultats2.forEach((comic, index) => {
         // console.log(comic.title);
@@ -132,6 +135,8 @@ async function ajaxFunction(cadena) {
           document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
         };
       });
+    } else {
+      document.getElementById("carregant").innerHTML = "<h2>Error cercant informació.</h2>";
     }
   } else {
     document.getElementById("carregant").innerHTML = "<h2>Error cercant informació.</h2>";
