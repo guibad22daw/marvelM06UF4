@@ -1,3 +1,5 @@
+const socket = io();
+
 async function inici() {
     const suggestions = document.querySelector("datalist");
 
@@ -13,19 +15,19 @@ async function inici() {
     document.getElementById("cadena").onkeyup = async function () {
         const value = this.value;
 
+        socket.emit('entrada', {
+            entrada: value
+        });
+
         if (!value) {
             while (suggestions.firstChild) {
                 suggestions.removeChild(suggestions.firstChild);
             }
             return;
         }
-
-        const response3 = await fetch(
-            `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${value}&ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`
-        );
-
-        if (response3.ok) {
-            const data3 = await response3.json();
+        socket.on('sugestions', function (data) {
+            console.log("dades rebudes al client.")
+            const data3 = data.data;
             const resultats3 = data3.data.results;
             const newSuggestions = resultats3;
 
@@ -39,8 +41,7 @@ async function inici() {
                 option.innerHTML = suggestion.name;
                 suggestions.appendChild(option);
             });
-        }
-
+        });
     }
 }
 
