@@ -26,64 +26,43 @@ async function inici() {
             return;
         }
         socket.on('sugestions', function (data) {
-            console.log("dades rebudes al client.")
-            const data3 = data.data;
-            const resultats3 = data3.data.results;
-            const newSuggestions = resultats3;
-
-            while (suggestions.firstChild) {
-                suggestions.removeChild(suggestions.firstChild);
+            if (data != "error") {
+                console.log("dades rebudes al client.")
+                const data3 = data.data;
+                const resultats3 = data3.data.results;
+                const newSuggestions = resultats3;
+    
+                while (suggestions.firstChild) {
+                    suggestions.removeChild(suggestions.firstChild);
+                }
+    
+                newSuggestions.forEach(suggestion => {
+                    const option = document.createElement("option");
+                    option.value = suggestion.name;
+                    option.innerHTML = suggestion.name;
+                    suggestions.appendChild(option);
+                });
+            } else {
+                document.getElementById("carregant").innerHTML = "<h2>Error de connexió.</h2>";
             }
 
-            newSuggestions.forEach(suggestion => {
-                const option = document.createElement("option");
-                option.value = suggestion.name;
-                option.innerHTML = suggestion.name;
-                suggestions.appendChild(option);
-            });
         });
     }
 }
 
 async function fetchFunction(cadena) {
     document.getElementById("resultats").innerHTML = "";
-    document.getElementById("carregant").innerHTML = `<img src="../assets/ironman.gif"/>`;
+    document.getElementById("carregant").innerHTML = `<img src="ironman.gif"/>`;
 
-    let peticioComics = fetch(`https://gateway.marvel.com:443/v1/public/comics?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`);
-    let peticioPersonatges = fetch(`https://gateway.marvel.com:443/v1/public/characters?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`);
+    socket.emit('cercaPersonatge', {
+        cadena: cadena
+    });
 
-    Promise.race([peticioComics, peticioPersonatges])
-        .then(response => {
-            if (response.url === peticioComics.url) {
-                console.log("La sol·licitud per obtenir comics s'ha completat abans que la d'obtenir personatges.");
-            } else {
-                console.log("La sol·licitud per obtenir personatges s'ha completat abans que la d'obtenir comics.");
-            }
-            return response.json();
-        })
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-
-    const response = await fetch(
-        `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${cadena}&ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`
-    );
-
-    if (response.ok) {
-        const data = await response.json();
-        const resultats = data.data.results;
-        document.getElementById("carregant").innerHTML = `<img src="../assets/ironman.gif"/>`;
-
-        if (resultats[0] == undefined) {
-            document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
-        }
-        const response2 = await fetch(
-            `http://gateway.marvel.com/v1/public/characters/${resultats[0].id}/comics?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5&limit=100`
-        );
-
-        if (response2.ok) {
+    socket.on('dades', function (data) {
+        if (data != "error") {
             document.getElementById("carregant").innerHTML = "";
             document.getElementById("resultats").innerHTML = "";
-            const data2 = await response2.json();
+            const data2 = data.data;
             const resultats2 = data2.data.results;
 
             if (resultats2[0] == undefined) document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
@@ -145,12 +124,10 @@ async function fetchFunction(cadena) {
                     document.getElementById("mySidepanel").append(imatgefonsPanel, divPanel);
                     document.getElementById("mySidepanel").style.width = "43%";
                     document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
-                };
+                }
             });
         } else {
-            document.getElementById("carregant").innerHTML = "<h2>Error cercant informació.</h2>";
+            document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
         }
-    } else {
-        document.getElementById("carregant").innerHTML = "<h2>Error cercant informació.</h2>";
-    }
+    });
 }
