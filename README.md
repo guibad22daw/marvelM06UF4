@@ -1,4 +1,4 @@
-# MARVEL - M06UF4
+# PROJECTE MARVEL - M06UF4
 API Marvel, el projecte consisteix en treballar i fer crides a l'API de Marvel, retornar els resultats i filtrar-los segons el nostre interes. Per desenvolupar el projecte s'han utilitzat tres tecnologies diferents:
 <ul>
   <li>Fetch</li>
