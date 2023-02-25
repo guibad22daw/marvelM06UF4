@@ -163,8 +163,7 @@ async function fetchFunction(cadena) {
     } catch(err) {
         console.log('err :>> ', err);
         document.getElementById("resultats").innerHTML = "";
-        if (resultats[0] == undefined) document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
-        else document.getElementById("carregant").innerHTML = "<h2>Error de connexió.</h2>";
+        document.getElementById("carregant").innerHTML = "<h2>Error de connexió.</h2>";
 
     }
     

@@ -31,11 +31,11 @@ async function inici() {
                 const data3 = data.data;
                 const resultats3 = data3.data.results;
                 const newSuggestions = resultats3;
-    
+
                 while (suggestions.firstChild) {
                     suggestions.removeChild(suggestions.firstChild);
                 }
-    
+
                 newSuggestions.forEach(suggestion => {
                     const option = document.createElement("option");
                     option.value = suggestion.name;
@@ -54,19 +54,24 @@ async function inici() {
 async function fetchFunction(cadena) {
     document.getElementById("resultats").innerHTML = "";
     document.getElementById("carregant").innerHTML = `<img src="ironman.gif"/>`;
+    document.getElementById("comptador").innerHTML = "";
 
     socket.emit('cercaPersonatge', {
         cadena: cadena
     });
 
     socket.on('dades', function (data) {
-        if (data != "error") {
+        let comptador = 0;
+        if (data != "error" && data != "noresults") {
             document.getElementById("carregant").innerHTML = "";
             document.getElementById("resultats").innerHTML = "";
-            const data2 = data.data;
-            const resultats2 = data2.data.results;
+            document.getElementById("comptador").innerHTML = "";
+            let data2 = data.data;
+            let resultats2 = data2.data.results;
 
             if (resultats2[0] == undefined) document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
+            console.log("dades rebudes al client");
+            console.log(resultats2);
 
             resultats2.forEach((comic, index) => {
                 let linkPortada = comic.thumbnail.path + "." + comic.thumbnail.extension;
@@ -80,11 +85,13 @@ async function fetchFunction(cadena) {
                 let imatgePortada = document.createElement("img");
                 a.append(imatgePortada, h4);
                 if (!linkPortada.includes("image_not_available")) {
+                    comptador++;
                     imatgePortada.src = linkPortada;
-                    imatgePortada.style.cssText = "width:150px; height: 230px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);"
                     portada.append(a, h4);
                     document.getElementById("resultats").appendChild(portada);
+                    imatgePortada.style.cssText = "width:150px; height: 230px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);"
                 }
+
                 a.onclick = function openNav() {  // Panel lateral on es mostra la informació del comic seleccionat.
                     document.getElementById("mySidepanel").innerHTML = '';
                     let divPanel = document.createElement("div");
@@ -127,9 +134,13 @@ async function fetchFunction(cadena) {
                     document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
                 }
             });
+            if (comptador == 1) document.getElementById("comptador").innerHTML = `<h5 style="color: white; text-align: center">Mostrant ${comptador} resultat</h5><br>`;
+            else document.getElementById("comptador").innerHTML = `<h5 style="color: white; text-align: center">Mostrant ${comptador} resultats</h5><br>`;
         } else {
             document.getElementById("resultats").innerHTML = "";
-            document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
+            document.getElementById("comptador").innerHTML = "";
+            if (data == "noresults") document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
+            else document.getElementById("carregant").innerHTML = "<h2>Error de connexió.</h2>";
         }
     });
 }

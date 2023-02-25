@@ -160,3 +160,8 @@ nav div {
     color: white;
     font-size: 70px;
 }
+
+.comptador h4 {
+    color: white;
+    text-shadow: 0 0 10px #000000;
+}

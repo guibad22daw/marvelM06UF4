@@ -20,8 +20,7 @@ io.on('connection', function (socket) {
                 socket.emit('sugestions', {
                     data: data
                 });
-            } else socket.emit('dades', "error");
-
+            }
         } catch (err) {
             console.log(err);
             socket.emit('sugestions',
@@ -33,7 +32,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('cercaPersonatge', async function (data) {
-        console.log("dades rebudes al servidor");
+        console.log('SERVIDOR -> dades rebudes del client->' + JSON.stringify(data));
         let cadena = data.cadena;
         try {
             const response = await fetch(
@@ -41,31 +40,30 @@ io.on('connection', function (socket) {
             );
 
             if (response.ok) {
-                const data = await response.json();
-                const resultats = data.data.results;
+                let data = await response.json();
+                try {
+                    let resultats = data.data.results;
 
-                if (resultats[0] != undefined) {
                     const response2 = await fetch(
                         `http://gateway.marvel.com/v1/public/characters/${resultats[0].id}/comics?ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5&limit=100`
                     );
 
                     if (response2.ok) {
-                        const data2 = await response2.json();
+                        let data2 = await response2.json();
                         socket.emit('dades', {
                             data: data2
                         });
+                        console.log("dades enviades");
                     }
-                } else socket.emit('dades', "error");
-
-            } else socket.emit('dades', "error");
+                } catch (err) {
+                    socket.emit('dades', "noresults");
+                    console.log("resultats buits enviats");
+                }
+            }
 
         } catch (err) {
-            socket.emit('dades',
-                "error"
-            );
+            socket.emit('dades', "error");
         }
-
-        console.log('SERVIDOR -> dades rebudes del client->' + JSON.stringify(data));
     });
 });
 
