@@ -43,6 +43,7 @@ async function inici() {
                     suggestions.appendChild(option);
                 });
             } else {
+                document.getElementById("resultats").innerHTML = "";
                 document.getElementById("carregant").innerHTML = "<h2>Error de connexió.</h2>";
             }
 
@@ -127,6 +128,7 @@ async function fetchFunction(cadena) {
                 }
             });
         } else {
+            document.getElementById("resultats").innerHTML = "";
             document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>";
         }
     });
