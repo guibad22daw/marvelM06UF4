@@ -1,4 +1,5 @@
 const socket = io();
+let obert, comptador;
 
 async function inici() {
     const suggestions = document.querySelector("datalist");
@@ -10,6 +11,11 @@ async function inici() {
     document.onmousedown = function () {
         document.getElementById("mySidepanel").style.width = "0";
         document.getElementById("resultats").style.marginRight = "0";
+        if (obert) {
+            if (comptador == 1) document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center; margin-top: 1em">Mostrant ${comptador} resultat</h6><br>`;
+            else document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center; margin-top: 1em">Mostrant ${comptador} resultats</h6><br>`;
+        }
+        obert = 0;
     }
 
     document.getElementById("cadena").onkeyup = async function () {
@@ -61,7 +67,7 @@ async function fetchFunction(cadena) {
     });
 
     socket.on('dades', function (data) {
-        let comptador = 0;
+        comptador = 0;
         if (data != "error" && data != "noresults") {
             document.getElementById("carregant").innerHTML = "";
             document.getElementById("resultats").innerHTML = "";
@@ -92,7 +98,10 @@ async function fetchFunction(cadena) {
                     imatgePortada.style.cssText = "width:150px; height: 230px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);"
                 }
 
-                a.onclick = function openNav() {  // Panel lateral on es mostra la informació del comic seleccionat.
+                a.onclick = function openNav() {
+                    obert = 1;  // Panel lateral on es mostra la informació del comic seleccionat.
+                    if (comptador == 1) document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: left; margin: 1em 0 0 3em">Mostrant ${comptador} resultat</h6><br>`;
+                    else document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: left; margin: 1em 0 0 3em">Mostrant ${comptador} resultats</h6><br>`;
                     document.getElementById("mySidepanel").innerHTML = '';
                     let divPanel = document.createElement("div");
                     let detalls = document.createElement("div");
@@ -134,8 +143,8 @@ async function fetchFunction(cadena) {
                     document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
                 }
             });
-            if (comptador == 1) document.getElementById("comptador").innerHTML = `<h5 style="color: white; text-align: center">Mostrant ${comptador} resultat</h5><br>`;
-            else document.getElementById("comptador").innerHTML = `<h5 style="color: white; text-align: center">Mostrant ${comptador} resultats</h5><br>`;
+            if (comptador == 1) document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center">Mostrant ${comptador} resultat</h6><br>`;
+            else document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center">Mostrant ${comptador} resultats</h6><br>`;
         } else {
             document.getElementById("resultats").innerHTML = "";
             document.getElementById("comptador").innerHTML = "";
