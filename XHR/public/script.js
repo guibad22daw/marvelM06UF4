@@ -1,3 +1,5 @@
+let obert, comptador;
+
 async function inici() {
    let xhr = new XMLHttpRequest();
 
@@ -28,6 +30,11 @@ async function inici() {
    document.onmousedown = function () {
       document.getElementById("mySidepanel").style.width = "0";
       document.getElementById("resultats").style.marginRight = "0";
+      if (obert) {
+         if (comptador == 1) document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center; margin-top: 1em">Mostrant ${comptador} resultat</h6><br>`;
+         else document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center; margin-top: 1em">Mostrant ${comptador} resultats</h6><br>`;
+      }
+      obert = 0;
    }
 
    document.getElementById("cadena").onkeyup = async function () {
@@ -61,10 +68,10 @@ async function inici() {
                   option.innerHTML = suggestion.name;
                   suggestions.appendChild(option);
                });
-            } else{
+            } else {
                document.getElementById("resultats").innerHTML = "";
                document.getElementById("carregant").innerHTML = `<h2>Error de connexió.</h2>`;
-            } 
+            }
          }
       }
    }
@@ -74,6 +81,7 @@ async function inici() {
 
       document.getElementById("resultats").innerHTML = "";
       document.getElementById("carregant").innerHTML = `<img src="ironman.gif"/>`;
+      document.getElementById("comptador").innerHTML = "";
       xhr.open("GET", `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${cadena}&ts=1&apikey=385f8a62426d0d8535c4604f77fcb45a&hash=2a696d921628585788f612c34de291f5`, true);
       xhr.send(null);
       xhr.onreadystatechange = function () {
@@ -88,8 +96,10 @@ async function inici() {
                   xhr2.send(null);
 
                   xhr2.onreadystatechange = async function () {
+                     comptador = 0;
                      if (xhr2.readyState == 4) {
                         document.getElementById("carregant").innerHTML = "";
+                        document.getElementById("comptador").innerHTML = "";
                         const data2 = JSON.parse(xhr2.responseText);
                         const resultats2 = data2.data.results;
 
@@ -107,14 +117,17 @@ async function inici() {
                            let imatgePortada = document.createElement("img");
                            a.append(imatgePortada, h4);
                            if (!linkPortada.includes("image_not_available")) {
+                              comptador++;
                               imatgePortada.src = linkPortada;
-                              imatgePortada.onload = function () {
-                                 imatgePortada.style.cssText = "width:150px; height: 230px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);"
-                                 portada.append(a, h4);
-                                 document.getElementById("resultats").appendChild(portada);
-                              }
+                              imatgePortada.style.cssText = "width:150px; height: 230px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);"
+                              portada.append(a, h4);
+                              document.getElementById("resultats").appendChild(portada);
+
                            }
                            a.onclick = function openNav() {  // Panel lateral on es mostra la informació del comic seleccionat.
+                              obert = 1;
+                              if (comptador == 1) document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: left; margin: 1em 0 0 3em">Mostrant ${comptador} resultat</h6><br>`;
+                              else document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: left; margin: 1em 0 0 3em">Mostrant ${comptador} resultats</h6><br>`;
                               document.getElementById("mySidepanel").innerHTML = '';
                               let divPanel = document.createElement("div");
                               let detalls = document.createElement("div");
@@ -156,11 +169,14 @@ async function inici() {
                               document.getElementById("resultats").style.cssText = "margin-right: 43%; transition: all 0.5s ease 0s";
                            };
                         });
+                        if (comptador == 1) document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center">Mostrant ${comptador} resultat</h6><br>`;
+                        else document.getElementById("comptador").innerHTML = `<h6 style="color: white; text-align: center">Mostrant ${comptador} resultats</h6><br>`;
                      }
                   }
                } else {
                   document.getElementById("resultats").innerHTML = "";
                   document.getElementById("carregant").innerHTML = "<h2>La cerca no ha retornat resultats.</h2>"
+                  document.getElementById("comptador").innerHTML = "";
                }
             } else document.getElementById("carregant").innerHTML = `<h2>Error de connexió.</h2>`;
 
